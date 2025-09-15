@@ -1,0 +1,31 @@
+{
+  "name": "daily-profits-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Build a React app for the Google Sheet: \"Daily Profits\"\n\nSHEET STRUCTURE:\n- Headers: StoreName, Date, Profit\n- Total rows: 9\n- Columns: 3\n\nSAMPLE DATA (first 5 rows):\n1. StoreName: \"Canberra\" | Date: \"08/08/25\" | Profit: \"18000\"\n2. StoreName: \"Melbourne - 1\" | Date: \"09/08/25\" | Profit: \"25000\"\n3. StoreName: \"Brisbane\" | Date: \"08/09/25\" | Profit: \"30000\"\n4. StoreName: \"Test Store\" | Date: \"09/04/25\" | Profit: \"15000\"\n5. StoreName: \"Test 1\" | Date: \"09/04/25\" | Profit: \"75000\"\n\nSHEETCLIENT API DOCUMENTATION:\nThe SheetClient must be instantiated before use: `const client = new SheetClient();`\n\nAVAILABLE METHODS:\n\n1. **getAllData()**\n   - Input: None\n   - Output: Promise<SheetRow[]> - Returns array of row objects with named properties\n   - Example: `const data = await client.getAllData();`\n   - Returns: `[{ StoreName: \"value\", Date: \"value\", Profit: \"value\", _id: \"...\", _rowIndex: 1 }, ...]`\n\n2. **addRow(data)**\n   - Input: Record<string, any> - Object with field names as keys\n   - Output: Promise<ApiResponse> - Returns {success: boolean, error?: string}\n   - Example: `await client.addRow({StoreName: \"value\", Date: \"value\", Profit: \"value\"})`\n\n3. **updateField(params)**\n   - Input: UpdateOperation object {identifier, field, newValue, oldValue?}\n   - Output: Promise<ApiResponse> - Returns {success: boolean, error?: string}\n   - Example: `await client.updateField({identifier: \"John\", field: \"Profit\", newValue: \"Yes\"})`\n\n4. **search(query)**\n   - Input: SearchQuery object {field?, value?, operator?}\n   - Output: Promise<SheetRow[]> - Returns matching row objects\n   - Example: `await client.search({value: \"search term\", operator: \"contains\"})`\n\n5. **getRowById(identifier)**\n   - Input: string | number - Row identifier\n   - Output: Promise<SheetRow | null> - Returns single row object or null\n   - Example: `await client.getRowById(\"identifier\")`\n\nIMPORTANT API CONSTRAINTS:\n- DELETE operations are NOT available - rows cannot be deleted via API\n- UPDATE operations work on individual fields, not entire rows\n- All methods return objects with named properties, NOT arrays\n- Must instantiate SheetClient: `const client = new SheetClient()`\n- API responses use {success: boolean, error?: string} format\n- Row objects include _id and _rowIndex metadata fields\n\nEFFICIENT API USAGE (RATE LIMIT CONSIDERATIONS):\n- Call getAllData() once on component mount and cache results\n- Use local state updates for immediate UI feedback\n- Only call API methods for actual persistence\n- Implement optimistic updates where possible\n- Use the built-in 30-second cache in SheetClient\n- Batch multiple operations when possible\n\nDATA STRUCTURE:\n```typescript\ninterface SheetRow {\n  StoreName: string;\n  Date: string;\n  Profit: string;\n  _id: string;\n  _rowIndex: number;\n}\n\ninterface ApiResponse {\n  success: boolean;\n  error?: string;\n}\n```\n\nUSAGE NOTES:\n- Always handle async operations with try/catch blocks\n- The SheetClient automatically handles authentication and sheet connection\n- All methods return Promises - use await or .then()\n- Data is returned as objects with named properties for easy access\n- Handle ApiResponse.success to check operation results\n\nAVAILABLE DEPENDENCIES:\n- react, { useState, useEffect }\n- lucide-react (for icons: Search, Plus, Edit, Trash2, Save, X, etc.)\n- SheetClient from './api/client' (pre-configured, must be instantiated)\n\nREQUIREMENTS:\n- Create a modern, responsive UI using the CORRECT SheetClient API\n- Handle the fact that delete operations are not available\n- Use proper object destructuring for row data\n- Implement proper error handling for API responses\n- Show user-friendly messages when operations succeed/fail\n- Use Tailwind CSS for clean, professional styling\n- Include proper loading states and error handling\n- Add data visualization if appropriate for the data type\n- IMPORTANT: Only modify App.tsx, do not change any API configuration files\n- The SheetClient API is pre-configured and requires instantiation\n\nTECHNICAL REQUIREMENTS:\n- Use TypeScript with proper interfaces\n- Implement proper error boundaries\n- Add form validation for user inputs\n- Include success/error notifications\n- Make it mobile responsive with mobile-first design\n- Add loading spinners during API calls\n- Use React hooks (useState, useEffect) for state management\n\nMOBILE & VISUAL REQUIREMENTS:\n- Design for mobile app format - touch-friendly buttons, proper spacing\n- Add charts and visualizations where appropriate using simple CSS/SVG or canvas\n- Include summary cards with key metrics\n- Use responsive grid layouts that work on phones\n- Add smooth animations and transitions\n- Include data visualization charts (bar charts, pie charts, progress indicators)\n- Make buttons large enough for mobile touch (min 44px height)\n- Use mobile-optimized forms with proper input types\n\nAdd charts and visuals where possible and make sure it's usable in mobile app format with touch-friendly interface.\n\nMake the interface intuitive and user-friendly for managing this specific type of data with beautiful visualizations and mobile-optimized design.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "15.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@tanstack/react-query": "^4.36.1",
+    "lucide-react": "^0.294.0",
+    "recharts": "^2.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "typescript": "^5",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "eslint": "^8",
+    "eslint-config-next": "15.5.0"
+  }
+}
